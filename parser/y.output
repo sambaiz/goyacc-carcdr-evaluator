@@ -1,0 +1,167 @@
+
+state 0
+	$accept: .expr $end 
+
+	NIL  shift 7
+	NUM  shift 6
+	'('  shift 4
+	.  error
+
+	expr  goto 1
+	list  goto 2
+	nil  goto 5
+	atom  goto 3
+
+state 1
+	$accept:  expr.$end 
+
+	$end  accept
+	.  error
+
+
+state 2
+	expr:  list.    (1)
+
+	.  reduce 1 (src line 27)
+
+
+state 3
+	expr:  atom.    (2)
+
+	.  reduce 2 (src line 29)
+
+
+state 4
+	list:  '('.CAR list ')' 
+	list:  '('.CDR list ')' 
+	list:  '('.CONS expr expr ')' 
+	nil:  '('.')' 
+
+	CAR  shift 8
+	CDR  shift 9
+	CONS  shift 10
+	')'  shift 11
+	.  error
+
+
+state 5
+	list:  nil.    (6)
+
+	.  reduce 6 (src line 44)
+
+
+state 6
+	atom:  NUM.    (9)
+
+	.  reduce 9 (src line 56)
+
+
+state 7
+	nil:  NIL.    (7)
+
+	.  reduce 7 (src line 46)
+
+
+state 8
+	list:  '(' CAR.list ')' 
+
+	NIL  shift 7
+	'('  shift 4
+	.  error
+
+	list  goto 12
+	nil  goto 5
+
+state 9
+	list:  '(' CDR.list ')' 
+
+	NIL  shift 7
+	'('  shift 4
+	.  error
+
+	list  goto 13
+	nil  goto 5
+
+state 10
+	list:  '(' CONS.expr expr ')' 
+
+	NIL  shift 7
+	NUM  shift 6
+	'('  shift 4
+	.  error
+
+	expr  goto 14
+	list  goto 2
+	nil  goto 5
+	atom  goto 3
+
+state 11
+	nil:  '(' ')'.    (8)
+
+	.  reduce 8 (src line 51)
+
+
+state 12
+	list:  '(' CAR list.')' 
+
+	')'  shift 15
+	.  error
+
+
+state 13
+	list:  '(' CDR list.')' 
+
+	')'  shift 16
+	.  error
+
+
+state 14
+	list:  '(' CONS expr.expr ')' 
+
+	NIL  shift 7
+	NUM  shift 6
+	'('  shift 4
+	.  error
+
+	expr  goto 17
+	list  goto 2
+	nil  goto 5
+	atom  goto 3
+
+state 15
+	list:  '(' CAR list ')'.    (3)
+
+	.  reduce 3 (src line 31)
+
+
+state 16
+	list:  '(' CDR list ')'.    (4)
+
+	.  reduce 4 (src line 36)
+
+
+state 17
+	list:  '(' CONS expr expr.')' 
+
+	')'  shift 18
+	.  error
+
+
+state 18
+	list:  '(' CONS expr expr ')'.    (5)
+
+	.  reduce 5 (src line 40)
+
+
+10 terminals, 5 nonterminals
+10 grammar rules, 19/8000 states
+0 shift/reduce, 0 reduce/reduce conflicts reported
+54 working sets used
+memory: parser 15/120000
+17 extra closures
+20 shift entries, 1 exceptions
+8 goto entries
+8 entries saved by goto default
+Optimizer space used: output 20/120000
+20 table entries, 0 zero
+maximum spread: 10, maximum offset: 14
