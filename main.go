@@ -24,7 +24,9 @@ func main(){
 		}
 
 		out, err := parser.Parse(string(line))
-		if err == nil {
+		if err != nil {
+			fmt.Println(err.Error())
+		} else {
 			fmt.Println(out.String())
 		}
 	}
